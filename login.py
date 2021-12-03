@@ -62,7 +62,6 @@ def course_getter(session):
 def course_detail(session, link):
     url = str(link)
 
-    print(url)
     response = session.get(url, headers=headers, verify=False)
     if response.status_code == 200:
         soup = bs(response.content, 'html5lib')

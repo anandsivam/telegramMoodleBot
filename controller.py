@@ -72,43 +72,34 @@ def command_handler(client, message):
 
 @bot.on_callback_query()
 async def markup(client, query):
-
     session = my_session.get_session()
+    course_list_dict = login.course_getter(session)
 
     if query.data == 'calendar':
         cal_curr_month = calendar_table.global_calendar(session)
-        await client.edit_message_text(query.message.chat.id, query.message.message_id,
-                                       text=f"Hi! {detail.get_name()}\n\n"
-                                            "Your Calendar of Current Month!\n",
-                                       reply_markup=reply_markups.CALENDAR_REPLY_MARKUP)
+        await client.send_message(query.message.chat.id,
+                                  text=f"Hi! {detail.get_name()}\n\nYour Calendar of Current Month!\n",
+                                  reply_markup=reply_markups.CALENDAR_REPLY_MARKUP)
     elif query.data == 'prev_month':
         cal_prev_month = calendar_table.global_calendar(client, query)
     elif query.data == 'next_month':
         cal_next_month = calendar_table.global_calendar(client, query)
 
-    elif query.data == 'python':
-        recorded_links = []
-        course_link = links.get_links()
-        for course, link in course_link.items():
-            if course == 'Python':
-                recorded_links = login.course_detail(session, link)
+    elif query.data in course_list_dict.keys():
+
+        recorded_links = login.course_detail(session, course_list_dict[query.data])
 
         value = '\n'.join(recorded_links)
-        await client.edit_message_text(query.message.chat.id, query.message.message_id,
-                                       text=f"Welcome {detail.get_name()}\n\n"
-                                            "Python course recorded lectures\n"
-                                            f"{value}",
-                                       reply_markup=reply_markups.home_menu_reply_markup(login.course_getter(my_session.get_session()))
-                                       )
+        await client.send_message(query.message.chat.id,
+                                  text=f"Hey {detail.get_name()}!\n\n\nCourse: {query.data}\n\nRecorded Lectures:\n{value}",
+                                  reply_markup=reply_markups.COURSE_REPLY_MARKUP
+                                  )
 
-    elif query.data == 'back':
-        await client.edit_message_text(query.message.chat.id, query.message.message_id,
-
-                                       text=f"Welcome {detail.get_name()}\n\n"
-                                            f"Please select the course\n"
-                                            "from the below buttons",
-                                       reply_markup=reply_markups.home_menu_reply_markup(login.course_getter(my_session.get_session())))
-
+    elif query.data == 'home':
+        await client.send_message(query.message.chat.id,
+                                  text=f"Hey {detail.get_name()}!\n\n\nPlease select a course \nfrom the below buttons",
+                                  reply_markup=reply_markups.home_menu_reply_markup(course_list_dict)
+                                  )
 
 
 bot.run()
