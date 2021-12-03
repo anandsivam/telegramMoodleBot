@@ -9,8 +9,8 @@ import reply_markups
 
 from pyrogram.types.bots_and_keyboards import callback_query
 
-bot = Client('my_bot', api_id='xxxx', api_hash='xxxxxx',
-             bot_token='xxxx:xx')
+bot = Client('my_bot', api_id='15194612', api_hash='211f86defc24dc0f099a1eaf209efb5d',
+             bot_token='2123096400:AAGjNzwu3VwyTrK8ZfLgrOJLr0Uec2aJ4Zg')
 
 # Getter and setter - session
 my_session = Session()
@@ -21,8 +21,6 @@ links = Course_link()
 #Student detail to fetch name
 detail = User_detail()
 
-#course list links
-course_list = []
 
 @bot.on_message(filters.command(['start', 'help', 'login']))
 def command_handler(client, message):
@@ -82,7 +80,7 @@ async def markup(client, query):
         await client.edit_message_text(query.message.chat.id, query.message.message_id,
                                        text=f"Hi! {detail.get_name()}\n\n"
                                             "Your Calendar of Current Month!\n",
-                                       reply_markup=reply_markups.home_menu_reply_markup(course_list))
+                                       reply_markup=reply_markups.CALENDAR_REPLY_MARKUP)
     elif query.data == 'prev_month':
         cal_prev_month = calendar_table.global_calendar(client, query)
     elif query.data == 'next_month':
@@ -100,7 +98,7 @@ async def markup(client, query):
                                        text=f"Welcome {detail.get_name()}\n\n"
                                             "Python course recorded lectures\n"
                                             f"{value}",
-                                       reply_markup=reply_markups.home_menu_reply_markup(course_list)
+                                       reply_markup=reply_markups.home_menu_reply_markup(login.course_getter(my_session.get_session()))
                                        )
 
     elif query.data == 'back':
@@ -109,7 +107,7 @@ async def markup(client, query):
                                        text=f"Welcome {detail.get_name()}\n\n"
                                             f"Please select the course\n"
                                             "from the below buttons",
-                                       reply_markup=reply_markups.home_menu_reply_markup(course_list))
+                                       reply_markup=reply_markups.home_menu_reply_markup(login.course_getter(my_session.get_session())))
 
 
 
