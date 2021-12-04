@@ -1,1 +1,1 @@
-worker: python3 controller.py
+worker: python controller.py
