@@ -10,9 +10,15 @@ import reply_markups
 
 from pyrogram.types.bots_and_keyboards import callback_query
 
-API_ID = "15194612"
-API_HASH = "211f86defc24dc0f099a1eaf209efb5d"
-BOT_TOKEN = "5025201651:AAFWe4CLXGofO_YtGeaE2EPm2VV9ZDVO2wc"
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.INFO)
+
+logger = logging.getLogger(__name__)
+
+
+API_ID = int(environ["API_ID"])
+API_HASH = environ["API_HASH"]
+BOT_TOKEN = environ["BOT_TOKEN"]
 
 print(API_ID, API_HASH, BOT_TOKEN)
 bot = Client("Lambton Moodle Scrappy Bot", api_id=API_ID, api_hash=API_HASH,

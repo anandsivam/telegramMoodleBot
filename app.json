@@ -12,13 +12,13 @@
   },
   "env": {
     "API_ID": {
-      "description": "15194612"
+      "description": ""
     },
     "API_HASH": {
-      "description": "211f86defc24dc0f099a1eaf209efb5d"
+      "description": ""
     },
     "BOT_TOKEN": {
-      "description": "5025201651:AAFWe4CLXGofO_YtGeaE2EPm2VV9ZDVO2wc"
+      "description": ""
     }
   }
 }
