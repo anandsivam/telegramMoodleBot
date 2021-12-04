@@ -1,3 +1,4 @@
+from os import environ
 from pyrogram import Client, filters, types
 import logging
 import time
@@ -9,8 +10,15 @@ import reply_markups
 
 from pyrogram.types.bots_and_keyboards import callback_query
 
-bot = Client('my_bot', api_id='15194612', api_hash='211f86defc24dc0f099a1eaf209efb5d',
-             bot_token='2123096400:AAGjNzwu3VwyTrK8ZfLgrOJLr0Uec2aJ4Zg')
+api_id = int(environ["API_ID"])
+api_hash = environ["API_HASH"]
+bot_token = environ["BOT_TOKEN"]
+
+
+bot = Client("Lambton Moodle Scrappy Bot", api_id='15194612', api_hash='211f86defc24dc0f099a1eaf209efb5d',
+             bot_token='5025201651:AAFWe4CLXGofO_YtGeaE2EPm2VV9ZDVO2wc')
+
+print('Hi! Welcome to my "Lambton Moodle Scrappy Bot"')
 
 # Getter and setter - session
 my_session = Session()
