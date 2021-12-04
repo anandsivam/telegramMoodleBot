@@ -5,3 +5,5 @@ telethon-tgcrypto
 python-telegram-bot
 requests
 requests-oauthlib
+html5lib
+lxml
