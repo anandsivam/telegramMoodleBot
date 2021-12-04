@@ -10,13 +10,13 @@ import reply_markups
 
 from pyrogram.types.bots_and_keyboards import callback_query
 
-api_id = environ["API_ID"]
-api_hash = environ["API_HASH"]
-bot_token = environ["BOT_TOKEN"]
+API_ID = "15194612"
+API_HASH = "211f86defc24dc0f099a1eaf209efb5d"
+BOT_TOKEN = "5025201651:AAFWe4CLXGofO_YtGeaE2EPm2VV9ZDVO2wc"
 
-print(api_id , api_hash, bot_token)
-bot = Client("Lambton Moodle Scrappy Bot", api_id=api_id, api_hash=api_hash,
-             bot_token=bot_token)
+print(API_ID, API_HASH, BOT_TOKEN)
+bot = Client("Lambton Moodle Scrappy Bot", api_id=API_ID, api_hash=API_HASH,
+             bot_token=BOT_TOKEN)
 
 print('Hi! Welcome to my "Lambton Moodle Scrappy Bot"')
 
@@ -26,7 +26,7 @@ my_session = Session()
 # Getter and setter - course link
 links = Course_link()
 
-#Student detail to fetch name
+# Student detail to fetch name
 detail = User_detail()
 
 
