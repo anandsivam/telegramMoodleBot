@@ -5,7 +5,7 @@ def home_menu_reply_markup(course_list):
     button_list = [
         [  # Oth row for HOME
             types.InlineKeyboardButton(
-                'HOME',
+                'Home',
                 callback_data="home"
             )
         ],
@@ -40,8 +40,8 @@ CALENDAR_REPLY_MARKUP = types.InlineKeyboardMarkup(
         ],
         [  # third row
             types.InlineKeyboardButton(
-                'Back',
-                callback_data="back"
+                'Home',
+                callback_data="home"
             ),
         ]
     ]
@@ -51,7 +51,7 @@ COURSE_REPLY_MARKUP = types.InlineKeyboardMarkup(
     [
         [  # Oth row for HOME
             types.InlineKeyboardButton(
-                'HOME',
+                'Home',
                 callback_data="home"
             )
         ],
