@@ -32,3 +32,7 @@ class User_detail:
 
     def set_name(self, name):
         self._name = name
+
+
+CURRENT_CALENDAR_MONTH_LINK = "https://moodle.cestarcollege.com/moodle/calendar/view.php?view=month"
+CALENDAR_LINKS = ["previous month link", "next month link"]

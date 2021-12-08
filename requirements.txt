@@ -3,6 +3,7 @@ TgCrypto
 beautifulsoup4
 telethon-tgcrypto
 python-telegram-bot
+regex
 requests
 requests-oauthlib
 html5lib

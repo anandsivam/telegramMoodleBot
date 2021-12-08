@@ -5,7 +5,7 @@ import time
 
 import calendar_table
 import login
-from session import Session, Course_link, User_detail
+from session import Session, Course_link, User_detail, CALENDAR_LINKS
 import reply_markups
 
 from pyrogram.types.bots_and_keyboards import callback_query
@@ -20,7 +20,6 @@ API_ID = int(environ["API_ID"])
 API_HASH = environ["API_HASH"]
 BOT_TOKEN = environ["BOT_TOKEN"]
 
-print(API_ID, API_HASH, BOT_TOKEN)
 bot = Client("Lambton Moodle Scrappy Bot", api_id=API_ID, api_hash=API_HASH,
              bot_token=BOT_TOKEN)
 
@@ -90,14 +89,25 @@ async def markup(client, query):
     course_list_dict = login.course_getter(session)
 
     if query.data == 'calendar':
+        print(CALENDAR_LINKS)
         cal_curr_month = calendar_table.global_calendar(session)
         await client.send_message(query.message.chat.id,
-                                  text=f"Hi! {detail.get_name()}\n\nYour Calendar of Current Month!\n",
+                                  text=f"Hi! {detail.get_name()}\n\nYour Calendar of Month - {cal_curr_month}",
                                   reply_markup=reply_markups.CALENDAR_REPLY_MARKUP)
-    elif query.data == 'prev_month':
-        cal_prev_month = calendar_table.global_calendar(client, query)
+
+    elif query.data == 'previous_month':
+        print(CALENDAR_LINKS)
+        cal_prev_month = calendar_table.get_calendar_details(session, link=CALENDAR_LINKS[0])
+        await client.send_message(query.message.chat.id,
+                                  text=f"Hi! {detail.get_name()}\n\nYour Calendar of Month - {cal_prev_month}",
+                                  reply_markup=reply_markups.CALENDAR_REPLY_MARKUP)
+
     elif query.data == 'next_month':
-        cal_next_month = calendar_table.global_calendar(client, query)
+        print(CALENDAR_LINKS)
+        cal_next_month = calendar_table.get_calendar_details(session, link=CALENDAR_LINKS[1])
+        await client.send_message(query.message.chat.id,
+                                  text=f"Hi! {detail.get_name()}\n\nYour Calendar of Month - {cal_next_month}",
+                                  reply_markup=reply_markups.CALENDAR_REPLY_MARKUP)
 
     elif query.data in course_list_dict.keys():
 
