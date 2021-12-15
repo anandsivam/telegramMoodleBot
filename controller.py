@@ -114,11 +114,14 @@ async def markup(client, query):
 
     elif query.data in course_list_dict.keys():
         session.CURRENT_COURSE = query.data
-        recorded_links = login.course_detail(session, course_list_dict[query.data])
+        current.set_qyery(data=query.data)
+        current_course_link = course_list_dict.get(query.data)
+        lecture_resource_links = login.resource_get(session, current_course_link)
 
-        value = '\n'.join(recorded_links)
+        value = '\n'.join(lecture_resource_links)
+
         await client.send_message(query.message.chat.id,
-                                  text=f"Hey {detail.get_name()}!\n\n\nCourse: {query.data}\n\nRecorded Lectures:\n{value}",
+                                  text=f"Hey {detail.get_name()}!\n\n\nCourse Name: {query.data}\n\nWeekly Lecture Resources:\n\n\n{value}",
                                   reply_markup=reply_markups.COURSE_REPLY_MARKUP
                                   )
 
@@ -148,6 +151,15 @@ async def markup(client, query):
                                             f"{current_course} course grade marks\n\n"
                                             f"{value}",
                                        reply_markup=reply_markups.grades_reply_markup())
+
+    elif query.data == 'recordedLec':
+
+        recorded_links = login.course_detail(session, course_list_dict[session.CURRENT_COURSE])
+
+        value = '\n'.join(recorded_links)
+        await client.send_message(query.message.chat.id,
+                                  text=f"Hey {detail.get_name()}!\n\n\nCourse Name: {session.CURRENT_COURSE}\n\nRecorded Lectures:\n\n{value}",
+                                  reply_markup=reply_markups.COURSE_REPLY_MARKUP)
 
 
 bot.run()

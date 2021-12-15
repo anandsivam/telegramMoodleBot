@@ -68,19 +68,25 @@ CALENDAR_REPLY_MARKUP = types.InlineKeyboardMarkup(
 
 COURSE_REPLY_MARKUP = types.InlineKeyboardMarkup(
     [
-        [  # Oth row for HOME
-            types.InlineKeyboardButton(
-                'Home',
-                callback_data="home"
-            )
-        ],
         [  # First row
+            types.InlineKeyboardButton(
+                'Recorded Lectures',
+                callback_data="recordedLec"
+            ),
+        ],
+        [  #Second row
             types.InlineKeyboardButton(
                 'Grades',
                 callback_data="grades"
             ),
         ],
-        [  # second row
+        [  #Third Row
+            types.InlineKeyboardButton(
+                'Home',
+                callback_data="home"
+            )
+        ],
+        [  # Final row
             types.InlineKeyboardButton(
                 'Calendar',
                 callback_data="calendar"
