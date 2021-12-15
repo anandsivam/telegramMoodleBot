@@ -24,6 +24,25 @@ def home_menu_reply_markup(course_list):
     return types.InlineKeyboardMarkup(button_list)
 
 
+def grades_reply_markup():
+    button_list = [
+        [  # Oth row for HOME
+            types.InlineKeyboardButton(
+                'Home',
+                callback_data="home"
+            )
+        ],
+        [  # First row for calendar
+            types.InlineKeyboardButton(
+                'Calendar',
+                callback_data="calendar"
+            )
+        ]
+    ]
+
+    return types.InlineKeyboardMarkup(button_list)
+
+
 CALENDAR_REPLY_MARKUP = types.InlineKeyboardMarkup(
     [
         [  # First row
@@ -63,8 +82,8 @@ COURSE_REPLY_MARKUP = types.InlineKeyboardMarkup(
         ],
         [  # second row
             types.InlineKeyboardButton(
-                'Course Activities',
-                callback_data="course_activities"
+                'Calendar',
+                callback_data="calendar"
             ),
         ]
     ]

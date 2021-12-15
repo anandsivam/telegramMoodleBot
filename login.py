@@ -46,7 +46,7 @@ def course_getter(session):
     if response.status_code == 200:
 
         soup = bs(response.content, 'html5lib')
-        #print(soup.prettify())
+        # print(soup.prettify())
         courses_side_menu = soup.find_all('div', attrs={'class': 'column c1'})
         courses_link_dict = {}
 
@@ -76,3 +76,98 @@ def course_detail(session, link):
     return False
 
 
+def grades(session, url):
+    main_url = 'https://moodle.cestarcollege.com/moodle/grade/report/user/index.php?id=' + url
+
+    response = session.get(main_url, headers=headers, verify=False)
+    print(main_url)
+
+    if response.status_code == 200:
+        soup = bs(response.content, 'html5lib')
+
+        grades = []
+
+        gname_start = soup.find_all('th', attrs={'class': 'level2 leveleven item b1b column-itemname'})
+
+        for item in gname_start:
+            parent = item.parent
+
+            name = parent.find('th', attrs={'class': 'level2 leveleven item b1b column-itemname'}).text
+            grade = parent.find('td', attrs={'class': 'level2 leveleven item b1b itemcenter column-grade'}).text
+            ranges = parent.find('td', attrs={'class': 'level2 leveleven item b1b itemcenter column-range'}).text
+            precentage = parent.find('td',
+                                     attrs={'class': 'level2 leveleven item b1b itemcenter column-percentage'}).text
+
+            value = f'{name}\n Grade ={grade} Range ={ranges} Percentage ={precentage}'
+
+            grades.append(value)
+            print(grades)
+        return grades
+
+    return False
+
+
+def resource_get(session, link):
+    url = str(link)
+
+    response = session.get(url, headers=headers, verify=False)
+    if response.status_code == 200:
+
+        soup = bs(response.content, 'html5lib')
+        header = soup.find_all('h3', attrs={'class': 'sectionname'})
+
+        resources = []
+
+        for item in header:
+
+            # print(item.text)  # header - general / recored lecture
+
+            parent = item.parent
+
+            files = parent.find_all('li', attrs={'class': 'activity resource modtype_resource'})
+
+            folders = parent.find_all('li', attrs={'class': 'activity folder modtype_folder'})
+
+            if files or folders:
+                resources.append(item.text)
+                resources.append('--------------------------')
+
+            for i in files:
+                link = i.find('a', attrs={'class': 'aalink'})
+
+                name_link = f'<a href="{link["href"]}">{link.text}</a>'
+
+                # print('File', link.text, link['href'])
+
+                resources.append(name_link)
+
+            for j in folders:
+
+                link = j.find('a', attrs={'class': 'aalink'})
+
+                fold_link = link['href']
+
+                sub_response = session.get(fold_link, headers=headers, verify=False)
+
+                if sub_response.status_code == 200:
+                    soup_sub = bs(sub_response.content, 'html5lib')
+
+                    finder = soup_sub.find_all('span', attrs={'class': 'fp-filename'})
+
+                    for sub_find in finder:
+
+                        if sub_find.text != '':
+                            sub_parent = sub_find.parent
+
+                            name_link = f'<a href="{sub_parent["href"]}">{sub_find.text}</a>'
+
+                            # print('Folder',sub_find.text,sub_parent['href'])
+
+                            resources.append(name_link)
+
+            if files or folders:
+                resources.append(" ")
+
+        return resources
+
+    return False

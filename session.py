@@ -34,5 +34,30 @@ class User_detail:
         self._name = name
 
 
+class Query_data:
+
+    def __init__(self, data=None):
+        self._data = data
+
+    def get_query(self):
+        return self._data
+
+    def set_qyery(self, data):
+        self._data = data
+
+
+class Current_course:
+
+    def __init__(self, data=None):
+        self._data = data
+
+    def get_course(self):
+        return self._data
+
+    def set_course(self, data):
+        self._data = data
+
+
 CURRENT_CALENDAR_MONTH_LINK = "https://moodle.cestarcollege.com/moodle/calendar/view.php?view=month"
 CALENDAR_LINKS = ["previous month link", "next month link"]
+CURRENT_COURSE = ''

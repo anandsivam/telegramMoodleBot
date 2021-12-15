@@ -5,7 +5,7 @@ import time
 
 import calendar_table
 import login
-from session import Session, Course_link, User_detail, CALENDAR_LINKS
+from session import Session, Course_link, User_detail, CALENDAR_LINKS, Query_data, Current_course
 import reply_markups
 
 from pyrogram.types.bots_and_keyboards import callback_query
@@ -14,7 +14,6 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                     level=logging.INFO)
 
 logger = logging.getLogger(__name__)
-
 
 API_ID = int(environ["API_ID"])
 API_HASH = environ["API_HASH"]
@@ -33,6 +32,10 @@ links = Course_link()
 
 # Student detail to fetch name
 detail = User_detail()
+
+current = Query_data()
+
+cur_course = Current_course()
 
 
 @bot.on_message(filters.command(['start', 'help', 'login']))
@@ -110,7 +113,7 @@ async def markup(client, query):
                                   reply_markup=reply_markups.CALENDAR_REPLY_MARKUP)
 
     elif query.data in course_list_dict.keys():
-
+        session.CURRENT_COURSE = query.data
         recorded_links = login.course_detail(session, course_list_dict[query.data])
 
         value = '\n'.join(recorded_links)
@@ -124,6 +127,27 @@ async def markup(client, query):
                                   text=f"Hey {detail.get_name()}!\n\n\nPlease select a course \nfrom the below buttons",
                                   reply_markup=reply_markups.home_menu_reply_markup(course_list_dict)
                                   )
+    elif query.data == 'grades':
+
+        current_course = session.CURRENT_COURSE
+        grades = None
+        value = None
+        if current_course in course_list_dict.keys():
+            print(current_course)
+            current_course_link = course_list_dict.get(current_course)
+            print(current_course_link)
+            link_extract = current_course_link[-5:]
+            print(link_extract)
+            grades = login.grades(session, link_extract)
+
+        if grades:
+            value = '\n\n'.join(grades)
+
+        await client.edit_message_text(query.message.chat.id, query.message.message_id,
+                                       text=f"Welcome {detail.get_name()}\n\n\n"
+                                            f"{current_course} course grade marks\n\n"
+                                            f"{value}",
+                                       reply_markup=reply_markups.grades_reply_markup())
 
 
 bot.run()
