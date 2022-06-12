@@ -1,4 +1,4 @@
-# Fall2021 - Python Programming term project
+# Fall2021 - Python Programming term project - Telegram - Moodle Bot
 #Author - Muruganantham Sadasivam, Vignesh
 
 This is telegram Bot used to scrap the Moodle - Learning Management System of our College - Lambton, Toronto.
